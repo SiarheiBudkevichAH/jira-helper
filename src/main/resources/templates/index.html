@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/themes/sunny/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-tokenfield.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/tokenfield-typeahead.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/jquery-ui.min.css}"/>
+
+    <title>JIRA HELPER</title>
+</head>
+<body>
+
+<header style="height: 50px; margin-bottom: 20px;">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#">JIRA HELPER</a>
+    </nav>
+</header>
+
+<main role="main">
+    <div class="container">
+        <form action="#" method="post" th:object="${issue}" th:action="@{/issues/create}">
+
+            <div class="form-group row">
+                <label for="projectName" class="col-sm-6 col-form-label">
+                    <h4>Project name</h4>
+                </label>
+                <div class="col-sm-6">
+                    <input type="text" id="projectName" readonly class="form-control" value="VTB-DBO-Platform">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="issueType" class="col-sm-6 col-form-label">
+                    <h4>Issue type</h4>
+                </label>
+                <div class="col-sm-6">
+                    <input type="text" id="issueType" readonly class="form-control" value="Build">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="assignTo" class="col-sm-6 col-form-label">
+                    <h4>Assign to</h4>
+                </label>
+                <div class="col-sm-6">
+                    <input type="text" id="assignTo" readonly class="form-control" value="Auto VTB-DBO CI">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="environment" class="col-sm-6 col-form-label">
+                    <h4>Environment</h4>
+                </label>
+                <div class="col-sm-6">
+                    <select class="form-control" id="environment" th:field="*{environment}">
+                        <option th:each="environment : ${environments}" th:value="${environment}"
+                                th:text="${environment}"> />
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="namespace" class="col-sm-6 col-form-label">
+                    <h4>Namespace</h4>
+                </label>
+                <div class="col-sm-6">
+                    <select class="form-control" id="namespace" th:field="*{namespace}">
+                        <option th:each="namespace : ${namespaces}" th:value="${namespace}" th:text="${namespace}"> />
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="fixVersion" class="col-sm-6 col-form-label">
+                    <h4>Fix versions</h4>
+                </label>
+                <div class="col-sm-6">
+                    <input type="text" id="fixVersion" class="form-control ui-autocomplete-input"
+                           th:field="*{fixVersions}"
+                           th:value="*{fixVersions}">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="updateDB" class="col-sm-6 col-form-label">
+                    <h4>Update DB</h4>
+                </label>
+                <div class="col-sm-6">
+                    <input class="form-control" type="checkbox" id="updateDB" th:field="*{updateDb}"
+                           value="action=updateDB">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="updateSecrets" class="col-sm-6 col-form-label">
+                    <h4>Update secrets</h4>
+                </label>
+                <div class="col-sm-6">
+                    <input class="form-control" type="checkbox" id="updateSecrets" th:field="*{updateSecrets}"
+                           value="action=update-secrets">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="updateConfigMaps" class="col-sm-6 col-form-label">
+                    <h4>Update config maps</h4>
+                </label>
+                <div class="col-sm-6">
+                    <input class="form-control" type="checkbox" id="updateConfigMaps" th:field="*{updateConfigMap}"
+                           value="action=update-configMap">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="externalAccess" class="col-sm-6 col-form-label">
+                    <h4>External access</h4>
+                </label>
+                <div class="col-sm-6">
+                    <input class="form-control" type="checkbox" id="externalAccess" th:field="*{externalAccess}"
+                           value="externalAccess">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="tokenfield" class="col-sm-6 col-form-label">
+                    <h4>Token field</h4>
+                </label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="tokenfield"/>
+                </div>
+            </div>
+
+            <a th:href="@{/index}" class="btn btn-primary">Reset</a>
+            <button type="submit" class="btn btn-success">Create issue</button>
+        </form>
+        <br>
+        <div class="alert alert-success" role="alert">
+            <p>
+                После создания таски в джире вы увидите ссылку на таску. <br>
+                <a th:href="${createIssueUrl}" th:text="${createIssueUrl}" target="_blank"/>
+            </p>
+        </div>
+    </div>
+</main>
+
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+<script th:src="@{/js/jquery-ui.min.js}"></script>
+<script th:src="@{/js/bootstrap-tokenfield.min.js}"></script>
+<script th:src="@{/js/typeahead.bundle.min.js}"></script>
+
+<script>
+
+var engine = new Bloodhound({
+    remote: {
+        url: '//suggestion?searchstr=%QUERY',
+        filter: function (response) {
+            var suggestion = $('#fixVersion').tokenfield('getTokens');
+            console.log(suggestion)
+            return $.map(response.leads, function (user) {
+                console.log(user)
+                var exists = false;
+                for (i=0; i < suggestion.length; i++) {
+                    if (user.value == suggestion[i].value) {
+                        var exists = true;
+                    }
+                }
+                if (!exists) {
+                    return {
+                        value: user.value,
+                        label: user.label
+                    };
+                }
+            });
+        }
+    },
+    datumTokenizer: function (d) {
+        return Bloodhound.tokenizers.whitespace(d.value);
+    },
+    queryTokenizer: Bloodhound.tokenizers.whitespace
+});
+
+engine.initialize();
+
+
+$(document).ready(function() {
+    $('#fixVersion').tokenfield({
+        delimiter: false,
+        typeahead: [
+               {
+                name: 'users',
+                displayKey: 'label',
+                source: engine.ttAdapter()
+            }
+        ]
+    })
+    .on('tokenfield:createtoken', function (e) {
+        var existingTokens = $(this).tokenfield('getTokens');
+        if (existingTokens.length) {
+            $.each(existingTokens, function(index, token) {
+                console.log(token)
+                if (token.value === e.attrs.value) {
+                    e.preventDefault();
+                }else{
+                    console.log(e.attrs.value)
+                }
+            });
+        }else{
+            console.log(e.attrs.value)
+        }
+    });
+});
+
+
+
+</script>
+
+</body>
+</html>
