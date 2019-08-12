@@ -1,29 +1,17 @@
 server.port: 1234
 
 jira:
-  username: <value>
-  password: <value>
-  url: https://jiraeu.epam.com
-  project: VTBDBOPLT
-  ciUserName: Auto_VTB-DBO_CI
+  username: <username_value>
+  password: <pswd_value>
+  url: <jira_url_value>
+  project: <project_value>
+  ciUserName: <ci_user_name>
 
 data:
   namespaces:
-    - ozol
-    - platforma-msk4-akukolev
-    - platforma-msk4-sbudkevich
-    - platforma-msk4-test
-    - platforma-msk4-dev1
-    - platforma-msk4-dev2
-    - platforma-msk4-dev3
+    - my_namespace
   environments:
-    - PLT
-    - DEV
-    - DEV-1
-    - DEV-2
-    - JTC
-    - JTC-1
-    - LITE
+    - dev
 
 
 logging.level.by.sb.jirahelper: DEBUG
