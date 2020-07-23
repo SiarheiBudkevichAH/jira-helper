@@ -51,7 +51,7 @@ public class JiraService {
                 .setAffectedVersionsNames(Arrays.asList("auth_develop", "user_develop"))
                 .setFieldValue("labels", generateLabels(issue))
                 .setFieldValue("environment", String.format(
-                        "http://k8s-%s.vtb-dbo.projects.epam.com:30000/#!/overview?namespace=%s",
+                        "jira_host",
                         issue.getEnvironment(),
                         issue.getNamespace()
                         )
